@@ -1,0 +1,12 @@
+﻿{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "k21-site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [".claude/serve.py"],
+      "port": 8321,
+      "autoPort": false
+    }
+  ]
+}

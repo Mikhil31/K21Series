@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K21 Palette Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: #efefec; color: #1b1b1b; font: 15px/1.55 Inter, system-ui, sans-serif; }
+  h1 { font: 700 22px Cinzel, serif; margin: 0 0 4px; }
+  .note { color: #555; margin: 0 0 24px; max-width: 860px; }
+  .pal { background: #fff; border-radius: 16px; border: 1px solid #ddd; overflow: hidden; margin-bottom: 28px; }
+  .pal > header { padding: 16px 18px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
+  .pal > header h2 { font: 700 19px Cinzel, serif; margin: 0; }
+  .pal > header .tag { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 99px; background: #e9f6ec; color: #1d6b34; }
+  .pal > header p { margin: 0; flex-basis: 100%; color: #555; }
+  .hero { display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center; padding: 34px 26px; }
+  .hero h3 { font: 700 26px/1.15 Cinzel, serif; margin: 0 0 8px; }
+  .hero p { margin: 0 0 16px; max-width: 460px; }
+  .btn { display: inline-block; padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 14px; margin: 0 8px 8px 0; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; padding: 22px 26px; }
+  .card { border-radius: 12px; padding: 14px; }
+  .card b { display: block; font-family: Cinzel, serif; margin-bottom: 4px; }
+  .card span { font-size: 13px; }
+  .card .stat { font: 700 30px/1.1 Inter, sans-serif; display: block; }
+  .sw { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 18px 18px; border-top: 1px solid #eee; }
+  .chip { width: 128px; border: 1px solid #e5e5e5; border-radius: 10px; overflow: hidden; font-size: 12px; }
+  .chip i { display: block; height: 42px; }
+  .chip div { padding: 5px 7px; }
+  .chip small { display: block; color: #777; }
+  .checks { padding: 0 18px 16px; font-size: 13px; color: #444; display: flex; flex-wrap: wrap; gap: 6px 16px; }
+  .emblem { position: relative; aspect-ratio: 1; overflow: hidden; flex: none; }
+  .emblem .inner { position: absolute; inset: 0; }
+  .emblem img { position: absolute; display: block; }
+  .emblem .frame { inset: 0; width: 100%; height: 100%; clip-path: inset(0.8%); }
+  .emblem .figure { clip-path: inset(3%); }
+  @media (max-width: 560px) { .hero { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<h1>Palette options, beyond navy and gold</h1>
+<p class="note">Each palette is applied to a hero section, a light content section and the crest, with real contrast ratios checked against WCAG (4.5:1 or more is needed for body text, 3:1 for large text and buttons).</p>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="filters"></defs></svg>
+<div id="out"></div>
+
+<script>
+const FIG = 'https://static.vecteezy.com/system/resources/thumbnails/011/880/528/large/saraswati-hindu-goddess-of-knowledge-on-lotus-flower-with-veena-instrument-silhouette-symbol-vector.jpg';
+const FRAME = 'https://static.vecteezy.com/system/resources/thumbnails/087/090/158/large/heraldic-shield-crest-laurel-wreath-silhouette-for-coat-of-arms-themes-vector.jpg';
+
+const palettes = [
+  { name: 'Deep Teal & Saffron', tag: 'Recommended',
+    why: 'Teal reads as global, intelligent and calm. Almost no Indian edtech uses it, so K21 looks like nobody else. Saffron gives the client the warm gold glow they want, but as an Indian colour rather than "luxury gold". It feels like a serious global institution with Indian roots, which is exactly the pitch.',
+    deep: '#0F3D3E', mid: '#1F6F78', accent: '#E8A33D', light: '#F7F3EC', ink: '#142224', onAccent: '#142224',
+    names: ['Deep teal', 'Teal', 'Saffron', 'Sand', 'Ink'] },
+  { name: 'Forest & Brass', tag: 'Heritage',
+    why: 'Oxford and Cambridge territory: dark green and antique brass say "old, serious, earned". The brass is a muted gold, so it keeps the client happy without looking flashy. It fits "toughest exam" and "prestige", but looks less young and techy.',
+    deep: '#13382D', mid: '#2E6B55', accent: '#C29B4C', light: '#F6F2E8', ink: '#15201B', onAccent: '#15201B',
+    names: ['Forest', 'Pine', 'Brass', 'Cream', 'Ink'] },
+  { name: 'Ink & Vermilion', tag: 'Bold modern',
+    why: 'Near-black, warm white and one strong vermilion red, like Minerva or 42. Very confident and editorial. Vermilion is also the sindoor and kumkum red, a quiet Indian link. No gold at all, so it\'s the hardest to sell to this client.',
+    deep: '#16181D', mid: '#3A3F48', accent: '#CF3A24', light: '#FAF7F2', ink: '#16181D', onAccent: '#FFFFFF',
+    names: ['Ink', 'Graphite', 'Vermilion', 'Warm white', 'Ink'] },
+  { name: 'Cobalt & Marigold', tag: 'Youthful',
+    why: 'A bright cobalt blue with marigold yellow is energetic and friendly to 12–18-year-olds, and marigold is the festival-garland colour. Blue is the safest "education" colour, but also the most common, so it stands out the least.',
+    deep: '#1A2E8F', mid: '#2347D6', accent: '#F5B82E', light: '#F7F8FC', ink: '#111633', onAccent: '#111633',
+    names: ['Deep cobalt', 'Cobalt', 'Marigold', 'Mist', 'Ink'] },
+];
+
+// WCAG contrast
+const lum = h => { const c = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const check = (label, fg, bg, min) => { const r = ratio(fg, bg); return `<span>${r >= min ? '✅' : '⚠️'} ${label}: ${r.toFixed(1)}:1</span>`; };
+
+const defs = document.getElementById('filters');
+const made = new Set();
+function filterFor(color) {
+  const id = 'f' + color.slice(1);
+  if (!made.has(id)) {
+    const [r, g, b] = [1, 3, 5].map(i => parseInt(color.slice(i, i + 2), 16) / 255);
+    defs.insertAdjacentHTML('beforeend', `<filter id="${id}" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 ${r}  0 0 0 0 ${g}  0 0 0 0 ${b}  -2 -2 -2 0 5.2"/></filter>`);
+    made.add(id);
+  }
+  return `url(#${id})`;
+}
+const crest = (size, color) => `<div class="emblem" style="width:${size}px"><div class="inner">
+  <img class="frame" src="${FRAME}" alt="" style="filter:${filterFor(color)}">
+  <img class="figure" src="${FIG}" alt="" style="left:28%;top:4.6%;width:44.2%;filter:${filterFor(color)}"></div></div>`;
+
+document.getElementById('out').innerHTML = palettes.map(p => `
+  <section class="pal">
+    <header><h2>${p.name}</h2><span class="tag">${p.tag}</span><p>${p.why}</p></header>
+    <div class="hero" style="background:${p.deep};color:${p.light}">
+      ${crest(150, p.accent)}
+      <div>
+        <h3 style="color:${p.light}">One exam. One global standard.</h3>
+        <p style="opacity:.9">1,000 seats across 193 countries. Open to anyone who has passed 7th standard.</p>
+        <span class="btn" style="background:${p.accent};color:${p.onAccent}">Book Your Seat</span>
+        <span class="btn" style="border:1.5px solid ${p.light};color:${p.light}">How K21 works</span>
+      </div>
+    </div>
+    <div class="cards" style="background:${p.light};color:${p.ink}">
+      <div class="card" style="background:#fff;border:1px solid ${p.mid}33"><span class="stat" style="color:${p.mid}">600+</span><b>Courses</b><span>Engineering, business and finance.</span></div>
+      <div class="card" style="background:#fff;border:1px solid ${p.mid}33"><span class="stat" style="color:${p.mid}">193</span><b>Countries</b><span>One standard everywhere.</span></div>
+      <div class="card" style="background:${p.mid};color:#fff"><span class="stat" style="color:${p.accent}">6</span><b style="color:#fff">Months</b><span>Between every exam.</span></div>
+      <div class="card" style="background:#fff;border:1px solid ${p.mid}33;display:grid;place-items:center">${crest(90, p.deep)}</div>
+    </div>
+    <div class="sw">${[p.deep, p.mid, p.accent, p.light, p.ink].map((c, i) => `<div class="chip"><i style="background:${c}"></i><div>${c}<small>${p.names[i]}</small></div></div>`).join('')}</div>
+    <div class="checks">
+      ${check('Body text on light', p.ink, p.light, 4.5)}
+      ${check('White text on deep', p.light, p.deep, 4.5)}
+      ${check('Button text on accent', p.onAccent, p.accent, 4.5)}
+      ${check('Accent on deep', p.accent, p.deep, 3)}
+      ${check('Mid colour on white (stats/links)', p.mid, '#FFFFFF', 3)}
+    </div>
+  </section>`).join('');
+</script>
+</body>
+</html>

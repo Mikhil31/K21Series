@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K21 Brand Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 60px; background: #ecebe7; color: #1b1b1b; font: 15px/1.55 Inter, system-ui, sans-serif; }
+  h1 { font: 700 22px Cinzel, serif; margin: 0 0 4px; }
+  h2 { font: 700 18px Cinzel, serif; margin: 34px 0 12px; }
+  .note { color: #555; margin: 0 0 18px; max-width: 900px; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  /* palette picker */
+  .picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+  .pick { border: 2px solid transparent; border-radius: 14px; background: #fff; padding: 0; cursor: pointer; text-align: left; overflow: hidden; font: inherit; }
+  .pick[aria-pressed="true"] { border-color: #111; }
+  .pick .thumb { height: 74px; display: flex; align-items: center; justify-content: center; }
+  .pick .meta { padding: 8px 10px; }
+  .pick b { display: block; font-size: 13px; }
+  .pick small { color: #666; font-size: 11.5px; }
+  .pick .star { color: #1d6b34; font-weight: 700; }
+
+  .panel { background: #fff; border-radius: 16px; border: 1px solid #ddd; padding: 18px; }
+  .story { margin: 0 0 14px; color: #444; max-width: 900px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { width: 118px; border: 1px solid #e3e3e3; border-radius: 10px; overflow: hidden; font-size: 12px; }
+  .chip i { display: block; height: 40px; }
+  .chip div { padding: 5px 7px; }
+  .chip small { display: block; color: #777; }
+  .grads { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 12px; }
+  .grad { height: 64px; border-radius: 10px; display: flex; align-items: flex-end; padding: 6px 9px; font-size: 12px; font-weight: 600; }
+  .checks { margin-top: 12px; font-size: 13px; color: #444; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+
+  /* logo system */
+  .logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 12px; }
+  .logo-card { border-radius: 14px; overflow: hidden; border: 1px solid #ddd; background: #fff; }
+  .logo-card .stage { display: flex; align-items: center; justify-content: center; min-height: 210px; padding: 22px; }
+  .logo-card .cap { padding: 10px 14px; border-top: 1px solid #eee; font-size: 13px; color: #555; }
+  .logo-card .cap b { color: #1b1b1b; font-family: Cinzel, serif; }
+  .wm { font-family: Cinzel, serif; line-height: 1.1; }
+  .wm .n { display: block; font-weight: 700; letter-spacing: .05em; white-space: nowrap; }
+  .wm .rule { display: flex; align-items: center; gap: 8px; }
+  .wm .rule::before, .wm .rule::after { content: ""; height: 1px; flex: 1; background: currentColor; opacity: .55; }
+  .wm .s { display: block; font-weight: 500; letter-spacing: .26em; white-space: nowrap; }
+
+  /* site sample */
+  .site { border-radius: 16px; overflow: hidden; border: 1px solid #ccc; }
+  .site header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px 24px; }
+  .site nav { display: flex; gap: 22px; font-size: 14px; font-weight: 500; white-space: nowrap; }
+  @media (max-width: 900px) { .site nav { display: none; } }
+  .btn { display: inline-block; padding: 11px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; }
+  .hero { position: relative; padding: 56px 28px 64px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center; overflow: hidden; }
+  .hero h3 { font: 700 38px/1.08 Cinzel, serif; margin: 0 0 12px; }
+  .hero p { font-size: 16px; margin: 0 0 22px; max-width: 520px; }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 12px; display: inline-block; padding: 5px 10px; border-radius: 99px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; padding: 26px 28px; }
+  .stat { border-radius: 14px; padding: 16px; }
+  .stat b { display: block; font: 700 32px/1 Inter, sans-serif; margin-bottom: 6px; }
+  .band { padding: 40px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; }
+  .band h4 { font: 700 26px Cinzel, serif; margin: 0; }
+  .foot { padding: 20px 28px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; }
+  @media (max-width: 720px) { .hero { grid-template-columns: 1fr; } .hero h3 { font-size: 30px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>K21 brand board</h1>
+<p class="note">Pick a palette to repaint everything below it: the logo system, gradients and a sample page. Every palette uses neighbouring hues so its gradients blend cleanly instead of turning muddy in the middle. Gradients are interpolated in OKLCH for smooth, even blends.</p>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Black-on-white artwork → white-on-transparent, usable as a mask -->
+    <filter id="toMask" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1">
+      <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  -2 -2 -2 0 5.2"/>
+    </filter>
+    <filter id="toMaskBold" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1">
+      <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  -2 -2 -2 0 5.2"/>
+      <feMorphology operator="dilate" radius="0.07"/>
+    </filter>
+    <filter id="toMaskBadge" color-interpolation-filters="sRGB" x="0" y="0" width="1" height="1">
+      <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  -2 -2 -2 0 5.2"/>
+      <feMorphology operator="dilate" radius="0.2"/>
+    </filter>
+  </defs>
+</svg>
+
+<h2>1 · Palettes</h2>
+<div class="picker" id="picker"></div>
+
+<h2 id="palName">Palette</h2>
+<div class="panel">
+  <p class="story" id="story"></p>
+  <div class="swatches" id="swatches"></div>
+  <div class="grads" id="grads"></div>
+  <div class="checks" id="checks"></div>
+</div>
+
+<h2>2 · Final logo system (designs 5 + 6 combined)</h2>
+<p class="note">One crest, kept large. The <b>primary</b> logo puts the full crest next to the name; the <b>stacked</b> logo is for hero sections, certificates and print. There is no small crest: the site header uses the name only, and the app icon covers small sizes. The crest is filled with a metallic gradient made from the palette's accent colours.</p>
+<div class="logos" id="logos"></div>
+
+<h2>3 · Sample page</h2>
+<div class="site" id="site"></div>
+</div>
+
+<script>
+const FIG = 'https://static.vecteezy.com/system/resources/thumbnails/011/880/528/large/saraswati-hindu-goddess-of-knowledge-on-lotus-flower-with-veena-instrument-silhouette-symbol-vector.jpg';
+const FRAME = 'https://static.vecteezy.com/system/resources/thumbnails/087/090/158/large/heraldic-shield-crest-laurel-wreath-silhouette-for-coat-of-arms-themes-vector.jpg';
+
+// deep → mid → bright: the main brand gradient (neighbouring hues). accent2 → accent: the metallic / CTA gradient.
+const allPalettes = [
+  { id: 'cobaltember', name: 'Cobalt & Ember', tag: 'Education blue, with energy', star: true,
+    story: "Your two strongest picks combined: Cobalt's education blue with Ember's orange. Blue is the colour people link most with learning and trust, which is why Oxford, Yale and Coursera use it. On its own it blends in, so the orange makes it energetic and unmistakable. Blue and orange are opposites on the colour wheel, so they never clash.",
+    deep: '#0B1B4D', mid: '#1E3FAE', bright: '#2F6BFF', accent: '#F26B38', accent2: '#FBB040', light: '#F6F7FB', ink: '#0E1430', onAccent: '#0E1430',
+    names: ['Midnight cobalt', 'Cobalt', 'Electric blue', 'Ember', 'Amber', 'Cloud', 'Ink'] },
+  { id: 'peacock', name: 'Royal Peacock', tag: 'Recommended', star: true,
+    story: "Ink blue through peacock teal, with a warm gold. The peacock is Saraswati's own bird, so the palette has a real story behind it, not just a trend. Blue to teal is one of the smoothest gradients there is, it reads as global and intelligent, and the gold keeps the client happy without the cheap \"luxury\" look.",
+    deep: '#06283D', mid: '#0A4D68', bright: '#088395', accent: '#F4B942', accent2: '#FFE0A3', light: '#F3F8F9', ink: '#0B1E26', onAccent: '#0B1E26',
+    names: ['Ink blue', 'Peacock', 'Teal', 'Gold', 'Pale gold', 'Mist', 'Ink'] },
+  { id: 'teal', name: 'Deep Teal & Saffron', tag: 'Global with Indian warmth',
+    story: "Dark teal into sea green, with saffron for warmth. Calm and smart, and almost no edtech uses it. Saffron replaces gold with a colour that means something in India.",
+    deep: '#0B2E33', mid: '#0F5257', bright: '#178582', accent: '#F2A541', accent2: '#FFD58A', light: '#F7F3EC', ink: '#13201F', onAccent: '#13201F',
+    names: ['Deep teal', 'Teal', 'Sea green', 'Saffron', 'Light saffron', 'Sand', 'Ink'] },
+  { id: 'aurora', name: 'Midnight Aurora', tag: 'Futuristic',
+    story: "Near-black midnight into indigo and teal, like the northern lights, with soft gold. Feels like technology, space and ambition. Great with glowing mesh gradients behind headlines.",
+    deep: '#0A0F2C', mid: '#1B2A6B', bright: '#1F7A8C', accent: '#F2C46D', accent2: '#B9F3E4', light: '#F4F6FB', ink: '#0E1430', onAccent: '#0E1430',
+    names: ['Midnight', 'Indigo', 'Aurora teal', 'Soft gold', 'Mint glow', 'Frost', 'Ink'] },
+  { id: 'sapphire', name: 'Sapphire & Rose Gold', tag: 'Elegant',
+    story: "Deep sapphire into periwinkle, with rose gold instead of yellow gold. More refined and modern than classic gold, and still premium. It balances well for a school that teaches young learners.",
+    deep: '#0B1437', mid: '#23306E', bright: '#4253A5', accent: '#E8A69A', accent2: '#F9DCD2', light: '#F8F5F4', ink: '#121833', onAccent: '#121833',
+    names: ['Sapphire', 'Royal', 'Periwinkle', 'Rose gold', 'Blush', 'Pearl', 'Ink'] },
+  { id: 'emerald', name: 'Emerald Royal', tag: 'Prestige',
+    story: "Dark emerald into jade, with rich gold. Feels like old money and serious achievement, close to Oxford green but brighter and more alive. Strong for \"toughest exam in the world\".",
+    deep: '#021F1A', mid: '#064E3B', bright: '#0F766E', accent: '#E9B949', accent2: '#FFE7A8', light: '#F4F7F2', ink: '#0B1B16', onAccent: '#0B1B16',
+    names: ['Deep emerald', 'Emerald', 'Jade', 'Gold', 'Pale gold', 'Linen', 'Ink'] },
+  { id: 'forest', name: 'Forest Canopy', tag: 'Heritage',
+    story: "Forest green through pine, with antique brass. Earthy, academic, calm. Softer and more natural than Emerald Royal.",
+    deep: '#0A2621', mid: '#14493D', bright: '#2D7A5F', accent: '#D9A93F', accent2: '#F4DB97', light: '#F5F3EA', ink: '#102019', onAccent: '#102019',
+    names: ['Forest', 'Pine', 'Fern', 'Brass', 'Light brass', 'Cream', 'Ink'] },
+  { id: 'cobalt', name: 'Cobalt & Marigold', tag: 'Youthful',
+    story: "Deep cobalt into electric blue, with marigold. Energetic and young, aimed squarely at 12–18-year-olds. Blue is the most common education colour, so it stands out less.",
+    deep: '#0A1A4F', mid: '#1735A8', bright: '#2F6BFF', accent: '#FFB627', accent2: '#FFE08A', light: '#F5F7FF', ink: '#0D1433', onAccent: '#0D1433',
+    names: ['Deep cobalt', 'Cobalt', 'Electric', 'Marigold', 'Light marigold', 'Ice', 'Ink'] },
+  { id: 'sunrise', name: 'Saffron Sunrise', tag: 'Bold Indian',
+    story: "Maroon into crimson, with saffron and amber. Temple and festival colours: warm, proud and very Indian. Gradients glow like a sunrise. Strong, but it can feel loud on long pages.",
+    deep: '#3B0A17', mid: '#7A1730', bright: '#B8322F', accent: '#F59E0B', accent2: '#FDE08A', light: '#FFF8EE', ink: '#2A0F12', onAccent: '#2A0F12',
+    names: ['Maroon', 'Crimson', 'Vermilion', 'Saffron', 'Amber glow', 'Ivory', 'Ink'] },
+  { id: 'lotus', name: 'Lotus Dawn', tag: 'Soft, warm',
+    story: "Plum into lotus pink, with peach. Saraswati sits on a lotus, and the gradient looks like dawn. It's the softest, most welcoming option. Note: the plum leans purple.",
+    deep: '#2A1035', mid: '#6B2257', bright: '#B1456B', accent: '#F6A97A', accent2: '#FFDCC2', light: '#FBF5F2', ink: '#24121F', onAccent: '#24121F',
+    names: ['Plum', 'Berry', 'Lotus', 'Peach', 'Light peach', 'Petal', 'Ink'] },
+  { id: 'ember', name: 'Ink & Ember', tag: 'Bold modern',
+    story: "Near-black into burnt umber, with ember orange. Editorial and confident, like a premium tech brand. Gradients look like glowing coals. Has the least classic \"education\" feel.",
+    deep: '#121316', mid: '#2B1B17', bright: '#7A2E1B', accent: '#F26B38', accent2: '#FBC06A', light: '#FAF6F1', ink: '#141414', onAccent: '#141414',
+    names: ['Ink', 'Umber', 'Rust', 'Ember', 'Amber', 'Paper', 'Ink'] },
+  { id: 'copper', name: 'Slate & Copper', tag: 'Corporate',
+    story: "Slate blue-grey with copper. Grown-up and professional, like consulting or finance brands, which suits the business, administration and Fortune-jobs angle. Less exciting for teenagers.",
+    deep: '#141E2A', mid: '#22384F', bright: '#3B5B7A', accent: '#D08A4E', accent2: '#F3CDA6', light: '#F6F4F1', ink: '#151B23', onAccent: '#151B23',
+    names: ['Slate', 'Steel', 'Dusk blue', 'Copper', 'Light copper', 'Stone', 'Ink'] },
+];
+allPalettes.push(
+  { id: 'crimson', name: 'Ink & Crimson', tag: 'Academic red', star: true,
+    story: "Near-black ink with a deep crimson. Red is the other great university colour: Harvard is literally \"Crimson\", and Stanford and MIT use cardinal red. So it still says elite education, with no blue anywhere. Crimson feels more serious and prestigious than orange, which fits the \"toughest exam\" pitch.",
+    deep: '#141214', mid: '#2E2629', bright: '#4A3A3E', accent: '#C8102E', accent2: '#E8475F', light: '#FAF7F5', ink: '#141214', onAccent: '#FFFFFF',
+    names: ['Ink', 'Charcoal', 'Smoke', 'Crimson', 'Rose red', 'Paper', 'Ink'] },
+  { id: 'vermilion', name: 'Ink & Vermilion', tag: 'Indian red',
+    story: "Ink with vermilion, the sindoor and kumkum red. A brighter, warmer red than crimson, with a quiet Indian link. Bold and editorial, like Minerva or 42.",
+    deep: '#16181D', mid: '#2C2F36', bright: '#454A54', accent: '#CF3A24', accent2: '#F07A5A', light: '#FAF7F2', ink: '#16181D', onAccent: '#FFFFFF',
+    names: ['Ink', 'Graphite', 'Slate', 'Vermilion', 'Coral', 'Warm white', 'Ink'] },
+);
+allPalettes.push(
+  { id: 'paper', name: 'Paper, Ink & Crimson', tag: 'Red used sparingly', star: true, lightHero: true,
+    crest: ['#EAD9A6', '#B8914A', '#EAD9A6', '#9C7536'],
+    story: "Same ink and crimson, used the way editorial brands like The Economist use them: mostly warm paper and black type, with red only on buttons and small details (under 10% of the page). The crest is printed in ink on light pages and antique brass on dark ones, never red, so Saraswati looks dignified rather than aggressive.",
+    deep: '#141214', mid: '#2E2629', bright: '#4A3A3E', accent: '#C8102E', accent2: '#E8475F', light: '#F7F3EC', ink: '#141214', onAccent: '#FFFFFF',
+    names: ['Ink', 'Charcoal', 'Smoke', 'Crimson', 'Rose red', 'Paper', 'Ink'] },
+);
+// White-first palettes: white pages, one brand colour, dark text tinted toward the brand instead of black.
+const BRASS = ['#EAD9A6', '#B8914A', '#EAD9A6', '#9C7536'];
+allPalettes.push(
+  { id: 'maroon', name: 'White & Maroon', tag: 'Academic, Indian', lightHero: true, crest: BRASS,
+    story: "White pages with a deep maroon and antique brass, like a degree certificate. Maroon is crimson's calmer, more grown-up version: it reads academic and prestigious, and it's also a temple and kumkum colour, so it feels Indian without trying. It sits beautifully on white, where bright red can feel loud.",
+    deep: '#5A1220', mid: '#7A1E2E', bright: '#9E2B3C', accent: '#A51C30', accent2: '#D9485C', light: '#FFFFFF', tint: '#F7E9EA', ink: '#2A1F21', onAccent: '#FFFFFF',
+    names: ['Deep maroon', 'Maroon', 'Garnet', 'Crimson (buttons)', 'Rose', 'White', 'Text'] },
+  { id: 'wcrimson', name: 'White & Crimson', tag: 'Bold red', lightHero: true, crest: BRASS,
+    story: "White with a true crimson, the Harvard red. Brighter and more energetic than maroon. On white it's crisp and confident, but it needs to stay on buttons and headings or it gets loud.",
+    deep: '#7A0C1E', mid: '#A50F27', bright: '#C8102E', accent: '#C8102E', accent2: '#E8475F', light: '#FFFFFF', tint: '#FDECEE', ink: '#221C1D', onAccent: '#FFFFFF',
+    names: ['Oxblood', 'Cardinal', 'Crimson', 'Crimson (buttons)', 'Rose', 'White', 'Text'] },
+  { id: 'wemerald', name: 'White & Emerald + Saffron', tag: 'Chosen', star: true, lightHero: true, crest: BRASS,
+    story: "White with emerald green and saffron buttons. Green means growth and learning, it's calm to read for long periods, and saffron gives warmth and an Indian touch. No blue, no black, no red.",
+    deep: '#064E3B', mid: '#047857', bright: '#059669', accent: '#D97B0A', accent2: '#F7B955', light: '#FFFFFF', tint: '#F6F7F1', ink: '#1C2422', onAccent: '#1C1408',
+    names: ['Deep emerald', 'Emerald', 'Green', 'Saffron (buttons)', 'Light saffron', 'White', 'Text'] },
+  { id: 'saffron', name: 'White & Burnt Saffron', tag: 'Warm, Indian', lightHero: true, crest: BRASS,
+    story: "White with burnt orange and saffron. The warmest, most Indian option, closest to the Ember you liked but on white. Feels optimistic and energetic, like a festival morning.",
+    deep: '#6B2410', mid: '#9A3412', bright: '#C2410C', accent: '#C2410C', accent2: '#F59E0B', light: '#FFFFFF', tint: '#FFEEDD', ink: '#2B211C', onAccent: '#FFFFFF',
+    names: ['Rust', 'Burnt orange', 'Saffron deep', 'Saffron (buttons)', 'Amber', 'White', 'Text'] },
+);
+allPalettes.push(
+  { id: 'wink', name: 'White, Ink & Crimson', tag: 'Black as detail only', lightHero: true, crest: BRASS,
+    story: "White pages, black used only for text, the crest and thin details, and crimson for buttons and the one colour band. Black never fills a background, so it looks crisp and premium, like a university press, instead of dark and heavy.",
+    deep: '#1A1718', mid: '#8E0F23', bright: '#C8102E', accent: '#C8102E', accent2: '#E8475F', light: '#FFFFFF', tint: '#FBEDEF', ink: '#1A1718', onAccent: '#FFFFFF',
+    names: ['Ink (text, crest)', 'Deep crimson (band)', 'Crimson', 'Crimson (buttons)', 'Rose', 'White', 'Text'] },
+);
+const palettes = ['wemerald', 'wink', 'maroon', 'wcrimson', 'saffron'].map(id => allPalettes.find(p => p.id === id));
+
+const lum = h => { const c = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const check = (label, fg, bg, min) => { const r = ratio(fg, bg); return `<span>${r >= min ? '✅' : '⚠️'} ${label}: ${r.toFixed(1)}:1</span>`; };
+
+const heroGrad = p => `radial-gradient(120% 90% at 85% 10%, ${p.bright}cc, transparent 60%), linear-gradient(135deg in oklch, ${p.deep}, ${p.mid} 55%, ${p.bright})`;
+const accentGrad = p => `linear-gradient(135deg in oklch, ${p.accent2}, ${p.accent})`;
+const meshGrad = p => `radial-gradient(60% 80% at 10% 20%, ${p.accent}55, transparent 60%), radial-gradient(70% 90% at 90% 80%, ${p.bright}aa, transparent 60%), ${p.deep}`;
+const softGrad = p => `linear-gradient(180deg in oklch, ${p.light}, #ffffff)`;
+
+// Crest as one SVG: the two stock images become a mask, filled with any colour or gradient.
+// Coordinates are a 100×100 frame box; the figure placement and shield outline were measured from the source pixels.
+const SHIELD_PTS = '50,3.8 72.4,16.4 72,41 71,45.5 69.2,50 66.2,54 61.2,58.4 56.7,61.4 50,65.2 43.3,61.4 38.8,58.4 33.8,54 30.8,50 29,45.5 28,41 27.6,16.4';
+let uid = 0;
+// mode 'badge' (small sizes): a solid shield filled with `bg`, the figure enlarged to fill it and
+// knocked out in `fill`, with slightly thickened lines. Solid shapes stay legible where outlines don't.
+function crest(size, fill, { mode = 'full', bold = false, bg } = {}) {
+  const id = 'c' + (uid++);
+  const badge = mode === 'badge';
+  if (badge) mode = 'shield';
+  const fig = badge ? { x: 25, y: 1, w: 50.2, h: 66.93 } : { x: 28, y: 4.6, w: 44.2, h: 58.93 };
+  const vb = mode === 'shield' ? '26 2.5 48 64' : mode === 'noribbon' ? '0 0 100 84' : '0 0 100 100';
+  const [, , vw, vh] = vb.split(' ').map(Number);
+  const paint = Array.isArray(fill)
+    ? `<linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1">${fill.map((c, i) => `<stop offset="${i / (fill.length - 1)}" stop-color="${c}"/>`).join('')}</linearGradient>`
+    : '';
+  const paintRef = Array.isArray(fill) ? `url(#${id}g)` : fill;
+  const frameClip = mode === 'shield' ? `<clipPath id="${id}s"><polygon points="${SHIELD_PTS}"/></clipPath>`
+    : `<clipPath id="${id}s"><rect x="0.8" y="0.8" width="98.4" height="${mode === 'noribbon' ? 82 : 98.4}"/></clipPath>`;
+  return `<svg viewBox="${vb}" width="${size}" height="${size * vh / vw}" style="display:block;overflow:visible" aria-label="Mahasaraswathi crest">
+    <defs>${paint}${frameClip}
+      <clipPath id="${id}f"><rect x="${fig.x + fig.w * 0.03}" y="${fig.y + fig.h * 0.03}" width="${fig.w * 0.94}" height="${fig.h * 0.94}"/></clipPath>
+      <mask id="${id}m" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+        <g clip-path="url(#${id}s)"><image href="${FRAME}" x="0" y="0" width="100" height="100" preserveAspectRatio="none" filter="url(#toMask)"/></g>
+        <g clip-path="url(#${id}f)"><image href="${FIG}" x="${fig.x}" y="${fig.y}" width="${fig.w}" height="${fig.h}" preserveAspectRatio="none" filter="url(#${badge ? 'toMaskBadge' : bold ? 'toMaskBold' : 'toMask'})"/></g>
+      </mask>
+    </defs>
+    ${bg ? `<polygon points="${SHIELD_PTS}" fill="${bg}"/>` : ''}
+    <rect x="0" y="0" width="100" height="100" fill="${paintRef}" mask="url(#${id}m)"/>
+  </svg>`;
+}
+
+const wordmark = (size, nameColor, subColor, align = 'left') => `
+  <div class="wm" style="text-align:${align};color:${nameColor}">
+    <span class="n" style="font-size:${size}px">MAHASARASWATHI</span>
+    <span class="rule" style="color:${subColor};margin:${size * 0.22}px 0 ${size * 0.18}px"><span class="s" style="font-size:${size * 0.42}px;color:${subColor}">EDUCATION FOUNDATION</span></span>
+  </div>`;
+
+function render(p) {
+  document.querySelectorAll('.pick').forEach(b => b.setAttribute('aria-pressed', b.dataset.id === p.id));
+  document.getElementById('palName').textContent = p.name;
+  document.getElementById('story').textContent = p.story;
+  const cols = [p.deep, p.mid, p.bright, p.accent, p.accent2, p.light, p.ink];
+  document.getElementById('swatches').innerHTML = cols.map((c, i) => `<div class="chip"><i style="background:${c}"></i><div>${c}<small>${p.names[i]}</small></div></div>`).join('');
+  // Blend tests only: proof the colours sit well together, not backgrounds to use.
+  document.getElementById('grads').innerHTML = [
+    ['Base blend · deep → bright', `linear-gradient(90deg in oklch, ${p.deep}, ${p.mid}, ${p.bright})`, p.light],
+    ['Accent blend · crest metallic', accentGrad(p), p.onAccent],
+    ['Base → accent', `linear-gradient(90deg in oklch, ${p.mid}, ${p.accent})`, '#fff'],
+  ].map(([n, g, t]) => `<div class="grad" style="background:${g};color:${t};height:40px">${n}</div>`).join('');
+  document.getElementById('checks').innerHTML = [
+    check('Body text on light', p.ink, p.light, 4.5),
+    check('Light text on deep', p.light, p.deep, 4.5),
+    check('Light text on brightest gradient end', p.light, p.bright, 3),
+    check('Button text on accent', p.onAccent, p.accent, 4.5),
+    p.lightHero ? check('Button colour on white', p.accent, '#FFFFFF', 3) : check('Accent on deep', p.accent, p.deep, 3),
+    check('Mid colour on white (links, stats)', p.mid, '#FFFFFF', 4.5),
+  ].join('');
+
+  const metal = p.crest || [p.accent2, p.accent, p.accent2, p.accent];
+  // Light-colour mode: hero on a tinted brand background (not plain white, never dark).
+  const heroBg = p.lightHero ? p.tint : p.deep, heroText = p.lightHero ? p.ink : p.light;
+  // White-first palettes never put the near-black ink behind anything; dark stages use the brand colour.
+  const darkBg = p.lightHero ? p.mid : p.deep, darkName = p.lightHero ? '#FFFFFF' : p.accent;
+  document.getElementById('logos').innerHTML = [
+    ['Primary · horizontal', 'Desktop header, letterheads, email signature. Full crest + name.',
+      `<div style="display:flex;align-items:center;gap:16px">${crest(96, metal, { bold: true })}${wordmark(24, darkName, p.light)}</div>`, darkBg],
+    ['Primary · on light', 'Same logo on light pages: crest and name in the deep colour, no gradient.',
+      `<div style="display:flex;align-items:center;gap:16px">${crest(96, p.deep, { bold: true })}${wordmark(24, p.deep, p.mid)}</div>`, p.light],
+    ['Stacked', 'Hero sections, certificates, posters, social covers.',
+      `<div style="display:flex;flex-direction:column;align-items:center;gap:12px">${crest(130, metal, { bold: true })}${wordmark(22, darkName, p.light, 'center')}</div>`, p.mid],
+    ['App icon / favicon', 'Filled emerald shield, Saraswati enlarged and knocked out in saffron. Shown at 120, 64 and 32px.',
+      `<div style="display:flex;align-items:flex-end;gap:16px">${[120, 64, 32].map(s => `<div style="width:${s}px;height:${s}px;border-radius:${s * 0.22}px;background:${p.tint || p.light};display:grid;place-items:center">${crest(s * 0.72, p.accent2, { mode: 'badge', bg: p.deep })}</div>`).join('')}</div>`, p.light],
+  ].map(([t, d, art, bg]) => `<div class="logo-card"><div class="stage" style="background:${bg}">${art}</div><div class="cap"><b>${t}</b><br>${d}</div></div>`).join('');
+
+  // Flat colour everywhere; the only gradient is the metallic fill inside the crest.
+  document.getElementById('site').innerHTML = `
+    <header style="background:#fff;color:${p.ink};border-bottom:1px solid ${p.mid}1f">
+      <div style="display:flex;align-items:center;gap:12px">${wordmark(17, p.deep, p.mid)}</div>
+      <nav style="color:${p.ink}"><span>About</span><span>The Exam</span><span>Learning</span><span>Careers</span><span>Admissions</span></nav>
+      <span class="btn" style="background:${p.accent};color:${p.onAccent};padding:9px 16px">Book Your Seat</span>
+    </header>
+    <section class="hero" style="background:${heroBg};color:${heroText}">
+      <div>
+        <span class="eyebrow" style="color:${p.lightHero ? p.mid : p.accent};border:1px solid ${p.lightHero ? p.mid : p.accent}80">Opening shortly · 1,000 seats</span>
+        <h3>One exam.<br>One global standard.</h3>
+        <p style="color:${heroText}d9">K21 Series is a centralized global education system for learners in 193 countries. If you've passed 7th standard, you can take the exam.</p>
+        <span class="btn" style="background:${p.accent};color:${p.onAccent};margin-right:10px">Book Your Seat</span>
+        <span class="btn" style="border:1.5px solid ${heroText}80;color:${heroText}">How K21 works</span>
+      </div>
+      <div style="display:flex;justify-content:center">${crest(220, p.lightHero ? p.mid : metal, { bold: true })}</div>
+    </section>
+    <section class="stats" style="background:${p.lightHero ? '#fff' : p.tint || p.light};color:${p.ink}">
+      ${[['600+', 'engineering courses'], ['12', 'disciplines in one exam'], ['193', 'countries'], ['6', 'months between exams']].map(([n, l]) =>
+        `<div class="stat" style="background:${p.lightHero ? p.tint : '#fff'};border:1px solid ${p.mid}22"><b style="color:${p.mid}">${n}</b>${l}</div>`).join('')}
+    </section>
+    <section class="band" style="background:${p.mid};color:#fff">
+      <h4>Your future starts here.</h4>
+      <span class="btn" style="${p.lightHero ? `background:#fff;color:${p.mid}` : `background:${p.accent};color:${p.onAccent}`}">Book Your Seat</span>
+    </section>
+    <footer class="foot" style="${p.lightHero ? `background:${p.tint};color:${p.ink}cc;border-top:1px solid ${p.mid}1f` : `background:${p.deep};color:${p.light}cc`}">
+
+      <span>Mahasaraswathi Education Foundation Pvt. Ltd. · Educate · Empower · Excel</span>
+    </footer>`;
+}
+
+document.getElementById('picker').innerHTML = palettes.map(p => `
+  <button class="pick" data-id="${p.id}" aria-pressed="false">
+    <div class="thumb" style="${p.lightHero ? `background:${p.tint};border-bottom:4px solid ${p.accent}` : `background:${p.deep}`}">${crest(50, p.accent2, { mode: 'badge', bg: p.deep })}</div>
+    <div class="meta"><b>${p.name}</b><small>${p.star ? '<span class="star">★ </span>' : ''}${p.tag}</small></div>
+  </button>`).join('');
+document.getElementById('picker').addEventListener('click', e => {
+  const b = e.target.closest('.pick');
+  if (b) render(palettes.find(p => p.id === b.dataset.id));
+});
+render(palettes[0]);
+</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K21 Emblem + Palettes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --page: #f3f1ec; --ink: #1b1b1b; --muted: #666; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: var(--page); color: var(--ink); font: 15px/1.5 Inter, system-ui, sans-serif; }
+  h1 { font: 700 22px Cinzel, serif; margin: 0 0 4px; }
+  .note { color: var(--muted); margin: 0 0 24px; max-width: 820px; }
+  .palette { background: #fff; border-radius: 14px; padding: 18px; margin-bottom: 22px; border: 1px solid #e3dfd5; }
+  .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 14px; }
+  .head h2 { font: 700 18px Cinzel, serif; margin: 0; }
+  .tag { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: #fff3cd; color: #7a5a00; }
+  .head p { margin: 0; color: var(--muted); flex-basis: 100%; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .tile { border-radius: 12px; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; min-height: 300px; justify-content: center; }
+  .emblem { position: relative; width: 190px; aspect-ratio: 564 / 560; overflow: hidden; flex: none; }
+  .emblem .inner { position: absolute; inset: 0; transform: scale(1.12); }
+  .emblem img { position: absolute; display: block; clip-path: inset(4%); }
+  .emblem .frame { inset: 0; width: 100%; height: 100%; }
+  .emblem .figure { left: 30%; top: 15%; width: 40%; }
+  .lockup { display: flex; align-items: center; gap: 14px; }
+  .lockup .emblem { width: 72px; }
+  .word { font-family: Cinzel, serif; line-height: 1.15; }
+  .word b { display: block; font-size: 15px; letter-spacing: .03em; }
+  .word span { display: block; font-size: 9px; letter-spacing: .14em; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .sw { width: 112px; border-radius: 10px; overflow: hidden; border: 1px solid #e3dfd5; font-size: 12px; }
+  .sw i { display: block; height: 46px; }
+  .sw div { padding: 5px 7px; }
+  .sw small { color: var(--muted); display: block; }
+  .ui { width: 100%; max-width: 260px; text-align: left; }
+  .ui h3 { font: 700 18px Cinzel, serif; margin: 0 0 6px; }
+  .ui p { margin: 0 0 12px; font-size: 13px; }
+  .btn { display: inline-block; padding: 9px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; }
+  .src { margin-top: 28px; font-size: 13px; color: var(--muted); }
+  .src a { color: inherit; }
+</style>
+</head>
+<body>
+<h1>K21 emblem: figure D inside frame 2</h1>
+<p class="note">This is a mockup built from Vecteezy's preview images, recoloured in the browser. The real logo uses the downloaded vector files, which are sharper and have no stock watermark. Each palette shows the emblem on a dark background, on a light background, as a header lockup, and on a sample section.</p>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="filters"></defs></svg>
+
+<div id="palettes"></div>
+
+<p class="src">Sources: figure D, <a href="https://www.vecteezy.com/vector-art/11880528">Vecteezy 11880528</a>; frame 2, <a href="https://www.vecteezy.com/vector-art/87090158">Vecteezy 87090158</a>.</p>
+
+<script>
+const FIG = 'https://static.vecteezy.com/system/resources/thumbnails/011/880/528/large/saraswati-hindu-goddess-of-knowledge-on-lotus-flower-with-veena-instrument-silhouette-symbol-vector.jpg';
+const FRAME = 'https://static.vecteezy.com/system/resources/thumbnails/087/090/158/large/heraldic-shield-crest-laurel-wreath-silhouette-for-coat-of-arms-themes-vector.jpg';
+
+const palettes = [
+  { name: 'Royal Scholar', tag: 'Recommended', why: 'Navy and gold read as trusted, academic and premium, like a university crest. It keeps the poster\'s gold but swaps the heavy black for navy, which is easier to live with across a whole site.',
+    dark: '#0E1A36', gold: '#C9A23F', light: '#F8F4EA', accent: '#3E7BD6', text: '#1A1F2E',
+    names: ['Navy (base)', 'Scholar gold', 'Ivory (background)', 'Globe blue (links)', 'Ink (text)'] },
+  { name: 'Midnight Gold', tag: 'Closest to poster', why: 'Black and gold, exactly like the poster. It looks luxurious, but a fully black site gets heavy and the gold can look cheap when overused. Best used on hero sections only.',
+    dark: '#0B0B0D', gold: '#D4AF37', light: '#F5F1E6', accent: '#B8860B', text: '#141414',
+    names: ['Midnight', 'Metallic gold', 'Parchment', 'Dark gold', 'Ink'] },
+  { name: 'Saraswati Heritage', tag: 'Indian identity', why: 'Deep maroon, gold and cream are temple and manuscript colours. They\'re warm and rooted, and lean into the Saraswathi name. Less "global tech", more "institution with heritage".',
+    dark: '#5C1A2B', gold: '#C9A23F', light: '#FBF6EC', accent: '#E08A1E', text: '#2A1A1A',
+    names: ['Maroon', 'Temple gold', 'Cream', 'Saffron (CTA)', 'Ink'] },
+  { name: 'Modern Global', tag: 'Most modern', why: 'A mostly white site with deep blue and gold accents, closest to Coursera or Minerva. It feels clean, international and tech-forward, but has the least of the poster\'s drama.',
+    dark: '#10213F', gold: '#D4A017', light: '#FFFFFF', accent: '#1D4ED8', text: '#111827',
+    names: ['Deep blue', 'Accent gold', 'White', 'Action blue', 'Ink'] },
+];
+
+const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255);
+const defs = document.getElementById('filters');
+const made = new Set();
+function filterFor(color) {
+  const id = 'f' + color.slice(1);
+  if (!made.has(id)) {
+    const [r, g, b] = hex(color);
+    defs.insertAdjacentHTML('beforeend',
+      `<filter id="${id}" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 ${r}  0 0 0 0 ${g}  0 0 0 0 ${b}  -2 -2 -2 0 5.2"/></filter>`);
+    made.add(id);
+  }
+  return `url(#${id})`;
+}
+const emblem = (color, cls = '') =>
+  `<div class="emblem ${cls}"><div class="inner"><img class="frame" src="${FRAME}" alt="" style="filter:${filterFor(color)}"><img class="figure" src="${FIG}" alt="" style="filter:${filterFor(color)}"></div></div>`;
+
+document.getElementById('palettes').innerHTML = palettes.map(p => `
+  <section class="palette">
+    <div class="head"><h2>${p.name}</h2><span class="tag">${p.tag}</span><p>${p.why}</p></div>
+    <div class="row">
+      <div class="tile" style="background:${p.dark}">${emblem(p.gold)}</div>
+      <div class="tile" style="background:${p.light};border:1px solid #e3dfd5">${emblem(p.dark)}</div>
+      <div class="tile" style="background:${p.dark};gap:18px">
+        <div class="lockup">${emblem(p.gold)}<div class="word" style="color:${p.gold}"><b>MAHASARASWATHI</b><span style="color:${p.light}">EDUCATION FOUNDATION</span></div></div>
+      </div>
+      <div class="tile" style="background:${p.light};border:1px solid #e3dfd5;align-items:stretch">
+        <div class="ui" style="color:${p.text}">
+          <h3 style="color:${p.dark}">Your future starts here</h3>
+          <p>1,000 seats. 193 countries. One standard.</p>
+          <span class="btn" style="background:${p.dark};color:${p.gold}">Book Your Seat</span>
+          <span class="btn" style="color:${p.accent}">How K21 works →</span>
+        </div>
+      </div>
+    </div>
+    <div class="swatches">${[p.dark, p.gold, p.light, p.accent, p.text].map((c, i) =>
+      `<div class="sw"><i style="background:${c}"></i><div>${c}<small>${p.names[i]}</small></div></div>`).join('')}</div>
+  </section>`).join('');
+</script>
+</body>
+</html>
